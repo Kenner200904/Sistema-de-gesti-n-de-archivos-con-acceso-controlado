@@ -1,0 +1,56 @@
+@startuml
+left to right direction
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam roundcorner 10
+skinparam packageStyle rectangle
+
+class Cliente {
+  +main(args: String[]): void
+  -subirArchivo(...): void
+  -descargarArchivo(...): void
+  -mostrarListado(...): void
+}
+interface Servidor {
+  +subir(origen: Path): Fichero
+  +descargar(id: int, destino: Path): Path
+  +listar(): List<Fichero>
+}
+class Proxy {
+  -servidorReal: Servidor
+  +Proxy()
+  +Proxy(servidorReal: Servidor)
+  +subir(origen: Path): Fichero
+  +descargar(id: int, destino: Path): Path
+  +listar(): List<Fichero>
+}
+class ServidorFicheros {
+  -directorioAlmacen: Path
+  +ServidorFicheros()
+  +subir(origen: Path): Fichero
+  +descargar(id: int, destino: Path): Path
+  +listar(): List<Fichero>
+  -buscarRutaPorId(id: int): Path
+}
+class Fichero {
+  -identificador: int
+  -nombre: String
+  -tamanoBytes: long
+  +getIdentificador(): int
+  +getNombre(): String
+  +getTamanoBytes(): long
+}
+
+Cliente --> Servidor : utiliza
+Proxy ..|> Servidor
+ServidorFicheros ..|> Servidor
+Proxy --> "1" Servidor : servidorReal
+ServidorFicheros ..> Fichero : crea / consulta
+Servidor ..> Fichero : devuelve
+
+note bottom of Proxy
+  Valida solicitudes,
+  registra la intervención
+  y delega operaciones.
+end note
+@enduml

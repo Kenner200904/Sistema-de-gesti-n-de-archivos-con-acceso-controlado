@@ -1,0 +1,12 @@
+RESUMEN DE PRUEBAS — IMPLEMENTACIÓN DEL PATRÓN PROXY
+Fecha: 2026-10-13
+
+1. Compilación del código Java: CORRECTA.
+2. Subida de archivo de prueba: CORRECTA; el servidor asignó el ID 1.
+3. Listado de archivos: CORRECTO; se mostró el identificador, nombre y tamaño.
+4. Descarga por identificador: CORRECTA.
+5. Integridad de la descarga: CORRECTA; el archivo descargado coincide byte a byte con el original.
+6. Ruta vacía al subir: RECHAZADA con un mensaje de validación.
+7. Identificador inexistente (999): RECHAZADO con un mensaje de error.
+
+El script verificar_pruebas.sh permite repetir las pruebas en Linux/macOS.

@@ -1,0 +1,43 @@
+@startuml
+skinparam shadowing false
+skinparam sequenceMessageAlign center
+skinparam ParticipantPadding 25
+skinparam BoxPadding 10
+actor Usuario
+participant Cliente
+participant Proxy
+participant "ServidorFicheros" as ServidorReal
+database "almacen_servidor/" as Almacen
+
+Usuario -> Cliente: Selecciona una operación
+alt Subir archivo
+  Cliente -> Proxy: subir(rutaOrigen)
+  Proxy -> Proxy: Validar ruta y archivo
+  Proxy -> ServidorReal: subir(rutaOrigen)
+  ServidorReal -> Almacen: Copiar archivo y asignar ID
+  Almacen --> ServidorReal: Copia realizada
+  ServidorReal --> Proxy: Fichero(id, nombre, tamaño)
+  Proxy --> Cliente: Resultado de subida
+else Mostrar listado
+  Cliente -> Proxy: listar()
+  Proxy -> ServidorReal: listar()
+  ServidorReal -> Almacen: Leer directorio
+  Almacen --> ServidorReal: Archivos almacenados
+  ServidorReal --> Proxy: List<Fichero>
+  Proxy --> Cliente: Listado de archivos
+else Descargar por ID
+  Cliente -> Proxy: descargar(id, carpetaDestino)
+  Proxy -> Proxy: Validar ID y carpeta
+  Proxy -> ServidorReal: descargar(id, carpetaDestino)
+  ServidorReal -> Almacen: Buscar ID y copiar archivo
+  alt ID existente
+    Almacen --> ServidorReal: Archivo copiado
+    ServidorReal --> Proxy: Ruta de descarga
+    Proxy --> Cliente: Descarga completada
+  else ID inexistente
+    Almacen --> ServidorReal: No se encuentra el ID
+    ServidorReal --> Proxy: NoSuchFileException
+    Proxy --> Cliente: Informa que el ID no existe
+  end
+end
+@enduml

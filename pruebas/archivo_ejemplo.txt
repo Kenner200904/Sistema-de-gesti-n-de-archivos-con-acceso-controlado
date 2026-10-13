@@ -1,0 +1,2 @@
+Archivo de prueba para verificar la implementación del patrón Proxy.
+Este contenido confirma que se copian archivos reales y no solo metadatos.

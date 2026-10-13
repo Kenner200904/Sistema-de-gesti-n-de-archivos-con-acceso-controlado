@@ -1,0 +1,52 @@
+digraph UML {
+  graph [rankdir=LR, bgcolor="white", pad="0.25", nodesep="0.65", ranksep="0.85", fontname="DejaVu Sans", label="Diagrama UML de clases · Patrón Proxy", labelloc=t, fontsize=22];
+  node [shape=plain, fontname="DejaVu Sans", fontsize=11];
+  edge [fontname="DejaVu Sans", fontsize=10, color="#4B5563", arrowsize=0.8];
+
+  Cliente [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" COLOR="#64748B">
+      <TR><TD BGCOLOR="#E2E8F0"><B>Cliente</B></TD></TR>
+      <TR><TD ALIGN="LEFT">+ main(args: String[]): void</TD></TR>
+      <TR><TD ALIGN="LEFT">- subirArchivo(...): void</TD></TR>
+      <TR><TD ALIGN="LEFT">- descargarArchivo(...): void</TD></TR>
+      <TR><TD ALIGN="LEFT">- mostrarListado(...): void</TD></TR>
+    </TABLE>>];
+  Servidor [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" COLOR="#2563EB">
+      <TR><TD BGCOLOR="#DBEAFE"><I>&lt;&lt;interface&gt;&gt;</I><BR/><B>Servidor</B></TD></TR>
+      <TR><TD ALIGN="LEFT">+ subir(origen: Path): Fichero</TD></TR>
+      <TR><TD ALIGN="LEFT">+ descargar(id: int, destino: Path): Path</TD></TR>
+      <TR><TD ALIGN="LEFT">+ listar(): List&lt;Fichero&gt;</TD></TR>
+    </TABLE>>];
+  Proxy [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" COLOR="#0F766E">
+      <TR><TD BGCOLOR="#CCFBF1"><B>Proxy</B></TD></TR>
+      <TR><TD ALIGN="LEFT">- servidorReal: Servidor</TD></TR>
+      <TR><TD ALIGN="LEFT">+ Proxy()</TD></TR>
+      <TR><TD ALIGN="LEFT">+ subir(...): Fichero</TD></TR>
+      <TR><TD ALIGN="LEFT">+ descargar(...): Path</TD></TR>
+      <TR><TD ALIGN="LEFT">+ listar(): List&lt;Fichero&gt;</TD></TR>
+    </TABLE>>];
+  Real [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" COLOR="#B45309">
+      <TR><TD BGCOLOR="#FEF3C7"><B>ServidorFicheros</B></TD></TR>
+      <TR><TD ALIGN="LEFT">- directorioAlmacen: Path</TD></TR>
+      <TR><TD ALIGN="LEFT">+ subir(...): Fichero</TD></TR>
+      <TR><TD ALIGN="LEFT">+ descargar(...): Path</TD></TR>
+      <TR><TD ALIGN="LEFT">+ listar(): List&lt;Fichero&gt;</TD></TR>
+    </TABLE>>];
+  Fichero [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="7" COLOR="#64748B">
+      <TR><TD BGCOLOR="#F1F5F9"><B>Fichero</B></TD></TR>
+      <TR><TD ALIGN="LEFT">- identificador: int</TD></TR>
+      <TR><TD ALIGN="LEFT">- nombre: String</TD></TR>
+      <TR><TD ALIGN="LEFT">- tamanoBytes: long</TD></TR>
+    </TABLE>>];
+
+  Cliente -> Servidor [label="utiliza", color="#2563EB", penwidth=1.6];
+  Proxy -> Servidor [style=dashed, arrowhead=empty, label="implementa", color="#0F766E"];
+  Real -> Servidor [style=dashed, arrowhead=empty, label="implementa", color="#B45309"];
+  Proxy -> Real [label="servidorReal", color="#0F766E", penwidth=1.6];
+  Real -> Fichero [label="crea / consulta", style=dotted];
+  Servidor -> Fichero [label="devuelve", style=dotted, constraint=false];
+}
