@@ -1,0 +1,7 @@
+# Archivos y carpetas locales que no deben subirse a GitHub
+/almacen_servidor/
+/capturas/
+/descargas/
+/diagramas/
+/out/
+/pruebas/
